@@ -1,7 +1,13 @@
-# Daily Supply — Vanilla HTML/CSS/JS storefront demo
+# Daily Supply — Phase 2 (static frontend)
 
-Upload `index.html`, `style.css`, and `script.js` to the root of a GitHub repository. In repository Settings → Pages, choose Deploy from a branch, `main`, `/ (root)` and save. No npm, Node, React, or VS Code required.
+Plain HTML, CSS, and JavaScript. No npm, React, or build step. Upload `index.html`, `style.css`, and `script.js` directly to the **root** of your GitHub repository, replacing the existing files. GitHub Pages publishes from `main` / `(root)`.
 
-This is a frontend-only **demo** with placeholder products. Working: product search, add/remove/quantity cart, guest checkout form, and demo voucher `SAVE50` for product subtotals >= ₱500. No orders are saved or transmitted. Shipping fees are not calculated. No real payment collection, screenshot upload, SMS/email, order tracking, affiliate attribution, or admin verification exists. Do not use this as a live payment storefront until a secure backend is implemented.
+## Features
+Responsive home, product categories/search, product details/variants, demo stock, cart with localStorage, quantity editing, voucher SAVE50 for ₱500+ product subtotal, guest checkout form and preview, delivery scheduling fields, demo order tracking (DST-DEMO123), affiliate information, How to Order, About, Contact, and draft Policies.
 
-Replace sample catalog, name, brand and imagery with actual business assets and product details before launch.
+## Important: not production-ready
+No customer data or orders are submitted to a server. Checkout is a **preview only**; payment is **not accepted**. No actual admin verification, secure screenshot upload, automated distance-based shipping, email/SMS, live courier tracking, affiliate accounts/referrals/payouts, or real inventory. All products, prices, brand, and policy copy are placeholders. Do not enter real customer or payment information.
+
+Delivery fee tiers from brief are 1–15 km ₱150; 16–25 km ₱350; 30+ km ₱500. **26–29 km is not defined**, and dispatch origin is missing. We deliberately do not fabricate shipping charges.
+
+To launch commercially, connect a backend (e.g., Supabase), configure secure admin authentication, server-side price/discount checks, secure payment-proof storage, real merchant payment details, shipping maps and defined fee tiers, order notifications, and verified affiliate payout logic.
