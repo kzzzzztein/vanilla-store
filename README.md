@@ -7,3 +7,7 @@ index.html, shop.html, product.html, cart.html, checkout.html, confirmation.html
 
 ## Important limitations
 This is a frontend demo. Products, prices, inventory and brand are placeholders. Cart and voucher are saved only in the visitor's browser. Checkout produces a session-only preview, not a real order; no data is sent to a merchant. No payment screenshots are accepted. Real order storage, payment verification, shipping distance calculation, SMS/email, rider tracking, affiliate login/commissions, and admin features require a secure backend. Shipping tiers have an unspecified 26–29 km gap and dispatch origin. Do not collect real customer data or payments until configured.
+
+
+## Jade Steam visual refresh
+All pages use `theme.css` for a modern Chinese dim sum aesthetic. Product names, pricing, availability and preparation details are **sample content**; replace with verified business information before launch. No backend or real payment processing is included.
