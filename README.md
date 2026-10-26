@@ -1,13 +1,9 @@
-# Daily Supply — Phase 2 (static frontend)
+# Daily Supply — multi-page static storefront
 
-Plain HTML, CSS, and JavaScript. No npm, React, or build step. Upload `index.html`, `style.css`, and `script.js` directly to the **root** of your GitHub repository, replacing the existing files. GitHub Pages publishes from `main` / `(root)`.
+Plain HTML, CSS, and JavaScript. No build step. Upload all files to the root of your existing GitHub repository and enable Pages from `main` / `(root)`.
 
-## Features
-Responsive home, product categories/search, product details/variants, demo stock, cart with localStorage, quantity editing, voucher SAVE50 for ₱500+ product subtotal, guest checkout form and preview, delivery scheduling fields, demo order tracking (DST-DEMO123), affiliate information, How to Order, About, Contact, and draft Policies.
+## Pages
+index.html, shop.html, product.html, cart.html, checkout.html, confirmation.html, track-order.html, how-to-order.html, affiliate.html, about.html, contact.html, policies.html.
 
-## Important: not production-ready
-No customer data or orders are submitted to a server. Checkout is a **preview only**; payment is **not accepted**. No actual admin verification, secure screenshot upload, automated distance-based shipping, email/SMS, live courier tracking, affiliate accounts/referrals/payouts, or real inventory. All products, prices, brand, and policy copy are placeholders. Do not enter real customer or payment information.
-
-Delivery fee tiers from brief are 1–15 km ₱150; 16–25 km ₱350; 30+ km ₱500. **26–29 km is not defined**, and dispatch origin is missing. We deliberately do not fabricate shipping charges.
-
-To launch commercially, connect a backend (e.g., Supabase), configure secure admin authentication, server-side price/discount checks, secure payment-proof storage, real merchant payment details, shipping maps and defined fee tiers, order notifications, and verified affiliate payout logic.
+## Important limitations
+This is a frontend demo. Products, prices, inventory and brand are placeholders. Cart and voucher are saved only in the visitor's browser. Checkout produces a session-only preview, not a real order; no data is sent to a merchant. No payment screenshots are accepted. Real order storage, payment verification, shipping distance calculation, SMS/email, rider tracking, affiliate login/commissions, and admin features require a secure backend. Shipping tiers have an unspecified 26–29 km gap and dispatch origin. Do not collect real customer data or payments until configured.
