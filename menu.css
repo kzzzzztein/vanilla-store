@@ -1,0 +1,23 @@
+/* Responsive hamburger navigation */
+.menu-toggle{display:none;align-items:center;justify-content:center;flex-direction:column;gap:5px;flex:0 0 44px;width:44px;height:44px;border:1px solid #d9c6a9;background:#fff9ed;border-radius:4px;position:relative;z-index:42;cursor:pointer}
+.menu-toggle span{display:block;width:21px;height:2px;background:#87352b;border-radius:2px;transition:transform .28s ease,opacity .2s ease}
+.menu-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+.menu-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.menu-backdrop{display:none}
+@media(max-width:1100px){
+ .header{height:74px;flex-wrap:nowrap;padding:0 clamp(16px,4vw,42px);gap:14px}
+ .header .brand{margin-right:auto}
+ .menu-toggle{display:flex;order:3}
+ .header .head-actions{order:2;margin-left:0}
+ .header nav{display:flex;position:fixed;top:0;right:0;bottom:0;left:auto;width:min(355px,88vw);height:100dvh;max-height:100dvh;overflow-y:auto;overflow-x:hidden;flex-direction:column;align-items:stretch;gap:0;padding:94px 25px 34px;background:#faf5e9;box-shadow:-16px 0 50px #30170e29;z-index:40;transform:translateX(105%);visibility:hidden;transition:transform .33s cubic-bezier(.2,.8,.2,1),visibility .33s;white-space:normal;overscroll-behavior:contain}
+ .header nav a{padding:16px 8px;border-bottom:1px solid #e8dcca;font-size:15px;letter-spacing:.01em;line-height:1.4}
+ .header nav a[aria-current="page"]{color:#8f3029}
+ .header nav a::after{display:none}
+ .menu-backdrop{position:fixed;inset:0;background:#24150e80;z-index:30;opacity:0;visibility:hidden;transition:opacity .33s,visibility .33s;display:block}
+ body.menu-open .header nav{transform:translateX(0);visibility:visible}
+ body.menu-open .menu-backdrop{opacity:1;visibility:visible}
+ body.menu-open{overflow:hidden}
+}
+@media(max-width:420px){.header{gap:8px}.brand{font-size:23px}.navbag{padding:10px 11px;font-size:12px}.menu-toggle{width:42px;height:42px;flex-basis:42px}}
+@media(prefers-reduced-motion:reduce){.menu-toggle span,.header nav,.menu-backdrop{transition:none!important}}

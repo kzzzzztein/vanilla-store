@@ -1,13 +1,40 @@
-# Daily Supply — multi-page static storefront
+# Jade Steam — Supabase backend foundation
 
-Plain HTML, CSS, and JavaScript. No build step. Upload all files to the root of your existing GitHub repository and enable Pages from `main` / `(root)`.
+Static HTML/CSS/JS, compatible with GitHub Pages. **Not ready for real customer payments or orders.** The existing storefront still uses demonstration cart/checkout/order tracking; admin dashboard reads real Supabase data once connected.
 
-## Pages
-index.html, shop.html, product.html, cart.html, checkout.html, confirmation.html, track-order.html, how-to-order.html, affiliate.html, about.html, contact.html, policies.html.
+## Setup (no npm or VS Code)
+1. Create a Supabase project at https://supabase.com/dashboard.
+2. Open **SQL Editor**, paste `supabase/schema.sql`, and run it. This creates tables, RLS policies, a secure admin-only payment-review function, and sample products.
+3. Go to **Authentication → Users** and create an admin user (email/password). In SQL Editor, promote ONLY your own user, using their actual ID from Auth Users:
 
-## Important limitations
-This is a frontend demo. Products, prices, inventory and brand are placeholders. Cart and voucher are saved only in the visitor's browser. Checkout produces a session-only preview, not a real order; no data is sent to a merchant. No payment screenshots are accepted. Real order storage, payment verification, shipping distance calculation, SMS/email, rider tracking, affiliate login/commissions, and admin features require a secure backend. Shipping tiers have an unspecified 26–29 km gap and dispatch origin. Do not collect real customer data or payments until configured.
+   ```sql
+   insert into public.profiles(id,role,full_name)
+   values ('REPLACE-WITH-AUTH-USER-UUID','admin','Store Administrator')
+   on conflict (id) do update set role='admin';
+   ```
 
+4. In **Project Settings → API** (or Connect → API keys), copy the **Project URL** and **publishable / anon key** into `supabase-config.js`. These are public client credentials, protected by RLS. **Never put a service_role / secret key into GitHub files.**
+5. Upload the whole folder's contents to the root of your GitHub `vanilla-store` repository, including `admin.html`, `admin.js`, `admin.css`, `supabase-config.js`, and `supabase/schema.sql` (SQL file is setup only). Open `/admin.html` and sign in.
 
-## Jade Steam visual refresh
-All pages use `theme.css` for a modern Chinese dim sum aesthetic. Product names, pricing, availability and preparation details are **sample content**; replace with verified business information before launch. No backend or real payment processing is included.
+## Working in this release
+- Admin authentication via Supabase Auth and admin role check
+- Database tables for products, orders, items, payment submissions, promos, affiliates, clicks, commissions, settings
+- Row Level Security for sensitive data; guest browsers cannot list orders or payments
+- Admin order status changes and product price/stock editing
+- Admin payment verification/rejection with a database function
+- Admin overview and read-only promo/affiliate views
+
+## Not yet live
+- Guest checkout server-side order creation, distance-based shipping (the requirements omit 26–29 km and need an origin address and distance provider), secure proof uploads, order lookup, transactional email/SMS, full product editing, affiliate sign-up/tracking/commission payouts, promo redemption and reporting/date filters.
+- Admin cannot securely approve a payment until a submission is received through a future checkout backend; the review interface is in place, but payment collection is not.
+- The current store's sample products and voucher `SAVE50` remain frontend demonstrations and **must not be treated as production prices, discounts, or payments**.
+
+## Security notes
+- Do not publish actual bank/GCash credentials or personal payout information in repository files.
+- Never use `service_role` in client JavaScript. RLS is enabled on all private tables.
+- Store payment proofs in a **private Supabase Storage bucket** with signed URLs after secure upload implementation.
+- Create order placement through a validated server-side RPC/Edge Function that computes product prices, shipping, discounts, stock, and commissions transactionally.
+- Protect public order tracking with an unguessable token and rate limits, not just sequential order numbers.
+
+## Design polish v2
+Includes `polish.css` and `polish.js` for accessible microinteractions, animated steam, scroll reveals, mobile refinements and unclipped product availability labels. Upload these files alongside all existing files. Supabase setup remains optional and deferred; checkout is still demo-only.
