@@ -36,13 +36,9 @@ Static HTML/CSS/JS, compatible with GitHub Pages. **Not ready for real customer 
 - Create order placement through a validated server-side RPC/Edge Function that computes product prices, shipping, discounts, stock, and commissions transactionally.
 - Protect public order tracking with an unguessable token and rate limits, not just sequential order numbers.
 
-## Design polish v2
-Includes `polish.css` and `polish.js` for accessible microinteractions, animated steam, scroll reveals, mobile refinements and unclipped product availability labels. Upload these files alongside all existing files. Supabase setup remains optional and deferred; checkout is still demo-only.
-
-
-## Design V3 repairs
-- Mobile menu stacking fixed: previously the backdrop was above the entire sticky header, blocking menu clicks. The header and menu now sit above the backdrop.
-- Accessible menu toggle, Escape/backdrop closing, and keyboard navigation.
-- Availability badges are constrained **inside** each product art card on narrow screens.
-- New `refinement.css` adds responsive cards and visual refinements. Upload this file too.
-- No Supabase account is required for the frontend preview; checkout remains a demo.
+## Design v4 (overhaul)
+- Six overlapping stylesheets (`style/pages/theme/polish/menu/refinement.css`) merged into one `styles.css`; `pages.js`/`polish.js`/`menu.js` replaced by `store.js` + `ui.js`; unused legacy `script.js` removed.
+- Availability badge moved out of the clipped arch image into its own row, with Available / Only N left / Out of stock states.
+- New dropdowns: "More" nav menu, mini-bag preview, shop category + sort, region and delivery-distance selects at checkout.
+- Checkout: scheduled date only enabled for "Schedule"; shipping estimate by distance tier (26–29 km still undefined by the brief).
+- Delete the old CSS/JS files from your GitHub repo when uploading.
