@@ -1,44 +1,28 @@
-# Jade Steam — Supabase backend foundation
+# Jade Steam — dim sum storefront + Supabase backend
 
-Static HTML/CSS/JS, compatible with GitHub Pages. **Not ready for real customer payments or orders.** The existing storefront still uses demonstration cart/checkout/order tracking; admin dashboard reads real Supabase data once connected.
+Static HTML/CSS/JS (GitHub Pages compatible). Runs in **demo mode** until Supabase is connected.
 
-## Setup (no npm or VS Code)
-1. Create a Supabase project at https://supabase.com/dashboard.
-2. Open **SQL Editor**, paste `supabase/schema.sql`, and run it. This creates tables, RLS policies, a secure admin-only payment-review function, and sample products.
-3. Go to **Authentication → Users** and create an admin user (email/password). In SQL Editor, promote ONLY your own user, using their actual ID from Auth Users:
-
+## Setup
+1. Create a Supabase project. In **SQL Editor** run, in this order: `supabase/schema.sql`, then `supabase/schema_v2.sql` (safe to re-run).
+2. **Authentication → Users**: create your admin user, then promote ONLY that user:
    ```sql
-   insert into public.profiles(id,role,full_name)
-   values ('REPLACE-WITH-AUTH-USER-UUID','admin','Store Administrator')
+   insert into public.profiles(id,role,full_name) values ('AUTH-USER-UUID','admin','Store Administrator')
    on conflict (id) do update set role='admin';
    ```
+3. Put the **Project URL** and **publishable/anon key** in `supabase-config.js`. Never use the service_role key in these files.
+4. Open `/admin.html` → **Settings & payment details**: enter your GCash / bank details (shown to customers at checkout).
+5. Add real products (Products → Add). The seeded sample products have `pass-on price = 0`; set the real value for margin reporting.
+6. Affiliate program and Promos are **OFF by default** — switch them on in their admin tabs.
 
-4. In **Project Settings → API** (or Connect → API keys), copy the **Project URL** and **publishable / anon key** into `supabase-config.js`. These are public client credentials, protected by RLS. **Never put a service_role / secret key into GitHub files.**
-5. Upload the whole folder's contents to the root of your GitHub `vanilla-store` repository, including `admin.html`, `admin.js`, `admin.css`, `supabase-config.js`, and `supabase/schema.sql` (SQL file is setup only). Open `/admin.html` and sign in.
+## What is implemented
+**Customer:** product catalog from Supabase · guest checkout (no account) · server-side price/stock/shipping/discount calculation · one voucher per order with clear invalid-voucher reasons · GCash/bank details + required reference number, amount, date/time and screenshot upload (private bucket) · thank-you pop-up · order confirmation page · tracking by reference + mobile number with 6-step timeline and a rider-tracking button once the admin adds a link · affiliate landing/sign-in/apply/dashboard (only when the program is ON) · `?ref=CODE` attribution with a configurable window, click tracking and self-referral blocking.
 
-## Working in this release
-- Admin authentication via Supabase Auth and admin role check
-- Database tables for products, orders, items, payment submissions, promos, affiliates, clicks, commissions, settings
-- Row Level Security for sensitive data; guest browsers cannot list orders or payments
-- Admin order status changes and product price/stock editing
-- Admin payment verification/rejection with a database function
-- Admin overview and read-only promo/affiliate views
+**Admin:** dashboard (sales, orders, pending payments, processing, delivery, completed, customers, bestsellers, recent orders) · orders (search, filter, one-click advance, cancel, details, courier link) · payment verification (never automatic; amount-mismatch warning) · products (add/edit, photo upload, pass-on price, variants, storage/cooking text) · reports (daily/weekly/monthly, by product, customers new/repeat/history, estimated margin) · affiliates (toggle, add/edit, links, commission %/₱, performance, pending→approved→paid) · promos (toggle, all fields, schedule, limits, tracking) · date-range filter across all tabs.
 
-## Not yet live
-- Guest checkout server-side order creation, distance-based shipping (the requirements omit 26–29 km and need an origin address and distance provider), secure proof uploads, order lookup, transactional email/SMS, full product editing, affiliate sign-up/tracking/commission payouts, promo redemption and reporting/date filters.
-- Admin cannot securely approve a payment until a submission is received through a future checkout backend; the review interface is in place, but payment collection is not.
-- The current store's sample products and voucher `SAVE50` remain frontend demonstrations and **must not be treated as production prices, discounts, or payments**.
+**Rules enforced in the database:** commission only for verified + delivered orders; cancelled/refunded orders restock, void unpaid commissions and release the voucher use; expired/inactive/exhausted/under-minimum vouchers rejected; program OFF stops new links and tracking but keeps history.
 
-## Security notes
-- Do not publish actual bank/GCash credentials or personal payout information in repository files.
-- Never use `service_role` in client JavaScript. RLS is enabled on all private tables.
-- Store payment proofs in a **private Supabase Storage bucket** with signed URLs after secure upload implementation.
-- Create order placement through a validated server-side RPC/Edge Function that computes product prices, shipping, discounts, stock, and commissions transactionally.
-- Protect public order tracking with an unguessable token and rate limits, not just sequential order numbers.
-
-## Design v4 (overhaul)
-- Six overlapping stylesheets (`style/pages/theme/polish/menu/refinement.css`) merged into one `styles.css`; `pages.js`/`polish.js`/`menu.js` replaced by `store.js` + `ui.js`; unused legacy `script.js` removed.
-- Availability badge moved out of the clipped arch image into its own row, with Available / Only N left / Out of stock states.
-- New dropdowns: "More" nav menu, mini-bag preview, shop category + sort, region and delivery-distance selects at checkout.
-- Checkout: scheduled date only enabled for "Schedule"; shipping estimate by distance tier (26–29 km still undefined by the brief).
-- Delete the old CSS/JS files from your GitHub repo when uploading.
+## Not yet implemented
+- **Email / SMS notifications** — need a Supabase Edge Function plus a provider (e.g. Resend, Semaphore/Twilio).
+- **Automatic shipping from the typed address** — needs a maps/distance API. Customers pick a distance tier instead; 26–29 km is undefined in the brief and is blocked until you define it.
+- Live rider map (a link button is provided); affiliate payout automation (payouts are manual by design).
+- Not tested against a live Supabase project — run through a full test order before launch.
