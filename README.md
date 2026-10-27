@@ -38,3 +38,11 @@ Static HTML/CSS/JS, compatible with GitHub Pages. **Not ready for real customer 
 
 ## Design polish v2
 Includes `polish.css` and `polish.js` for accessible microinteractions, animated steam, scroll reveals, mobile refinements and unclipped product availability labels. Upload these files alongside all existing files. Supabase setup remains optional and deferred; checkout is still demo-only.
+
+
+## Design V3 repairs
+- Mobile menu stacking fixed: previously the backdrop was above the entire sticky header, blocking menu clicks. The header and menu now sit above the backdrop.
+- Accessible menu toggle, Escape/backdrop closing, and keyboard navigation.
+- Availability badges are constrained **inside** each product art card on narrow screens.
+- New `refinement.css` adds responsive cards and visual refinements. Upload this file too.
+- No Supabase account is required for the frontend preview; checkout remains a demo.
